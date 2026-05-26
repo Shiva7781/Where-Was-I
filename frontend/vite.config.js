@@ -8,11 +8,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor':   ['react', 'react-dom'],
-          'map-leaflet':    ['leaflet', 'react-leaflet'],
-          'map-simple':     ['react-simple-maps', 'topojson-client'],
-          'd3':             ['d3-scale', 'd3-scale-chromatic'],
-          'socket':         ['socket.io-client'],
+          'react-vendor': ['react', 'react-dom'],
+          'map-leaflet':  ['leaflet', 'react-leaflet'],
+          'map-simple':   ['react-simple-maps', 'topojson-client'],
+          'd3':           ['d3-scale', 'd3-scale-chromatic'],
+          'socket':       ['socket.io-client'],
         },
       },
     },
@@ -22,11 +22,6 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
-        changeOrigin: true,
-      },
-      '/socket.io': {
-        target: 'http://localhost:5000',
-        ws: true,
         changeOrigin: true,
       },
     },

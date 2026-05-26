@@ -38,7 +38,7 @@ export function useVisits() {
   useEffect(() => { loadData(selectedDate); }, [selectedDate, loadData]);
 
   useEffect(() => {
-    const socket = io('/', { transports: ['websocket', 'polling'], reconnectionDelay: 1000 });
+    const socket = io('http://localhost:5000', { transports: ['websocket', 'polling'], reconnectionDelay: 1000 });
 
     socket.on('connect', () => setIsOnline(true));
     socket.on('disconnect', () => setIsOnline(false));
