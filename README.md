@@ -202,6 +202,21 @@ ASSIGNMENT/
 
 ---
 
+## Architecture Decisions & Trade-offs
+
+| Decision | Choice | Why |
+|----------|--------|-----|
+| **Geo library** | `geoip-lite` (local MaxMind DB) | No API key, no rate limit, no network dependency. Trade-off: database is bundled at install time and can be 3–6 months stale — run `npm run update-geoip` to refresh. |
+| **Geo resolution timing** | Async after 201 response | The extension gets an immediate acknowledgement and isn't blocked by DNS + geoip latency. The visit appears on the map ~100–500 ms later via the Socket.io `new-visit` event. |
+| **Auth mechanism** | Shared Bearer token | Simple and sufficient for a single-user local setup. In a multi-user production deployment this would be replaced with per-user JWT tokens. |
+| **Heatmap** | SVG choropleth (react-simple-maps) | Country-level fills communicate "which countries' servers" more clearly than a density heatmap. Trade-off: requires an ISO numeric → alpha-2 lookup table for ~180 countries. |
+| **Dot map** | Leaflet `DivIcon` + CSS `@keyframes` | CSS animations run on the compositor thread (GPU), cheaper than JS-driven animation. SVG `CircleMarker` can't receive CSS class-based animations. |
+| **Debounce** | 5 s per domain | Prevents duplicate records on rapid reload/SPA navigation without losing genuine re-visits. A shorter window risks spam; longer risks missing real repeat visits. |
+| **URL storage** | Path only (query string stripped) | Query strings often contain session tokens, search terms, or PII. Stripping them keeps stored data clean by default. |
+| **MongoDB** | Local instance | Zero-config for local development. The connection string is an env variable, so swapping to Atlas or any hosted instance requires only a one-line `.env` change. |
+
+---
+
 ## Tech Stack
 
 | Layer | Technologies |

@@ -1,20 +1,33 @@
-import React, { useEffect, useMemo } from 'react';
-import { MapContainer, TileLayer, useMap, CircleMarker, Popup } from 'react-leaflet';
+import { useEffect, useMemo } from 'react';
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 const TILE_URL  = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 const TILE_ATTR = '&copy; <a href="https://carto.com">CARTO</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a>';
 
-function markerColor(count) {
-  if (count >= 20) return '#ef4444';
-  if (count >= 6)  return '#f59e0b';
-  if (count >= 2)  return '#22c55e';
-  return '#3b82f6';
+function freqClass(count) {
+  if (count >= 20) return 'freq-4';
+  if (count >= 6)  return 'freq-3';
+  if (count >= 2)  return 'freq-2';
+  return 'freq-1';
 }
 
-function markerRadius(count) {
-  return Math.max(5, Math.min(18, 5 + Math.log2(count + 1) * 3));
+function dotSize(count) {
+  // log scale: 1 visit → 12px, 20+ → 28px
+  return Math.round(Math.max(12, Math.min(28, 12 + Math.log2(count + 1) * 4)));
+}
+
+// DivIcon so the .marker-dot CSS (glow + pulse-ring keyframe) actually applies
+function createIcon(count) {
+  const size = dotSize(count);
+  return L.divIcon({
+    className: '',
+    html: `<div class="marker-dot ${freqClass(count)}" style="width:${size}px;height:${size}px;"></div>`,
+    iconSize:   [size, size],
+    iconAnchor: [size / 2, size / 2],
+    popupAnchor:[0, -(size / 2 + 4)],
+  });
 }
 
 // Cluster visits at the same physical server (3 decimal ≈ 111m precision)
@@ -24,7 +37,11 @@ function groupByLocation(visits) {
     if (v.lat == null || v.lng == null) continue;
     const key = `${v.lat.toFixed(3)},${v.lng.toFixed(3)}`;
     if (!map.has(key)) {
-      map.set(key, { lat: v.lat, lng: v.lng, city: v.city, region: v.region, country: v.country, countryCode: v.countryCode, ip: v.ip, domains: {}, totalVisits: 0 });
+      map.set(key, {
+        lat: v.lat, lng: v.lng,
+        city: v.city, region: v.region, country: v.country, countryCode: v.countryCode,
+        ip: v.ip, domains: {}, totalVisits: 0,
+      });
     }
     const loc = map.get(key);
     loc.domains[v.domain] = (loc.domains[v.domain] || 0) + 1;
@@ -77,26 +94,13 @@ export default function WorldMap({ visits }) {
     <MapContainer center={[20, 0]} zoom={2} minZoom={2} maxZoom={12} style={{ width: '100%', height: '100%' }} worldCopyJump>
       <TileLayer url={TILE_URL} attribution={TILE_ATTR} subdomains="abcd" />
       <FitBounds locations={locations} />
-      {locations.map((loc, i) => {
-        const color  = markerColor(loc.totalVisits);
-        const radius = markerRadius(loc.totalVisits);
-        return (
-          <CircleMarker
-            key={i}
-            center={[loc.lat, loc.lng]}
-            radius={radius}
-            pathOptions={{ color, fillColor: color, fillOpacity: 0.85, weight: 2, opacity: 0.9 }}
-            eventHandlers={{
-              mouseover: (e) => e.target.setStyle({ fillOpacity: 1, weight: 3 }),
-              mouseout:  (e) => e.target.setStyle({ fillOpacity: 0.85, weight: 2 }),
-            }}
-          >
-            <Popup minWidth={220} maxWidth={320}>
-              <MarkerPopup loc={loc} />
-            </Popup>
-          </CircleMarker>
-        );
-      })}
+      {locations.map((loc, i) => (
+        <Marker key={i} position={[loc.lat, loc.lng]} icon={createIcon(loc.totalVisits)}>
+          <Popup minWidth={220} maxWidth={320}>
+            <MarkerPopup loc={loc} />
+          </Popup>
+        </Marker>
+      ))}
     </MapContainer>
   );
 }
