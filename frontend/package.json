@@ -1,0 +1,28 @@
+{
+  "name": "where-was-i-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Where Was I? - Browser History World Map",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "date-fns": "^2.30.0",
+    "leaflet": "^1.9.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-leaflet": "^4.2.1",
+    "react-simple-maps": "^3.0.0",
+    "socket.io-client": "^4.6.1",
+    "topojson-client": "^3.1.0",
+    "d3-scale": "^4.0.2",
+    "d3-scale-chromatic": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.3",
+    "vite": "^4.4.5"
+  }
+}

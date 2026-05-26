@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Where Was I?</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-logo">🌍</div>
+    <div class="header-title">
+      <h1>Where Was I?</h1>
+      <p>Browser History World Map</p>
+    </div>
+    <label class="toggle" title="Enable / disable tracking">
+      <input type="checkbox" id="toggleEnabled" checked />
+      <span class="slider-track"></span>
+    </label>
+  </header>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value" id="statTotal">—</div>
+      <div class="stat-label">Today</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="statSession">—</div>
+      <div class="stat-label">This session</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="statStatus">●</div>
+      <div class="stat-label">Backend</div>
+    </div>
+  </div>
+
+  <!-- Last visited -->
+  <div class="last-visit" id="lastVisit">No visits tracked yet</div>
+
+  <!-- API Key settings -->
+  <div class="settings">
+    <label for="apiKeyInput">API Key</label>
+    <div class="key-row">
+      <input
+        type="password"
+        id="apiKeyInput"
+        placeholder="Enter your API key"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button class="btn-save" id="btnSaveKey">Save</button>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <button class="btn btn-primary" id="btnOpenMap">🗺 Open Map</button>
+    <button class="btn btn-secondary" id="btnClearStats">Clear Stats</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

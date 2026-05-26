@@ -1,0 +1,252 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 320px;
+  min-height: 200px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: 14px;
+}
+
+/* ── Header ─────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.header-logo {
+  font-size: 22px;
+}
+
+.header-title {
+  flex: 1;
+}
+
+.header-title h1 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: -0.2px;
+}
+
+.header-title p {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 1px;
+}
+
+/* Toggle switch */
+.toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.toggle {
+  position: relative;
+  width: 34px;
+  height: 18px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-track {
+  position: absolute;
+  inset: 0;
+  background: #334155;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.slider-track::before {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  left: 3px;
+  top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.toggle input:checked + .slider-track {
+  background: #3b82f6;
+}
+
+.toggle input:checked + .slider-track::before {
+  transform: translateX(16px);
+}
+
+/* ── Stats row ───────────────────────────────────────────────────── */
+.stats {
+  display: flex;
+  border-bottom: 1px solid #1e293b;
+}
+
+.stat {
+  flex: 1;
+  text-align: center;
+  padding: 12px 8px;
+}
+
+.stat:not(:last-child) {
+  border-right: 1px solid #1e293b;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #3b82f6;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Last visit ─────────────────────────────────────────────────── */
+.last-visit {
+  padding: 10px 16px;
+  border-bottom: 1px solid #1e293b;
+  font-size: 12px;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.last-visit span {
+  color: #e2e8f0;
+}
+
+/* ── API key input ───────────────────────────────────────────────── */
+.settings {
+  padding: 12px 16px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.settings label {
+  display: block;
+  font-size: 11px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.key-row {
+  display: flex;
+  gap: 6px;
+}
+
+.key-row input {
+  flex: 1;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 12px;
+  padding: 6px 10px;
+  font-family: monospace;
+  outline: none;
+}
+
+.key-row input:focus {
+  border-color: #3b82f6;
+}
+
+.btn-save {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0 12px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.btn-save:hover {
+  background: #2563eb;
+}
+
+/* ── Footer buttons ─────────────────────────────────────────────── */
+.footer {
+  padding: 12px 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  transition: background 0.15s;
+}
+
+.btn-primary {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+}
+
+.btn-secondary {
+  background: #1e293b;
+  color: #94a3b8;
+}
+
+.btn-secondary:hover {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+/* ── Status toast ────────────────────────────────────────────────── */
+.toast {
+  display: none;
+  margin: 0 16px 10px;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.toast.success {
+  background: #064e3b;
+  color: #6ee7b7;
+  display: block;
+}
+
+.toast.error {
+  background: #450a0a;
+  color: #fca5a5;
+  display: block;
+}
