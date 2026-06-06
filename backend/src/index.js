@@ -21,7 +21,10 @@ const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:5173')
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin && process.env.NODE_ENV !== 'production') return callback(null, true);
-    if (!origin || allowedOrigins.some((o) => origin === o || origin.startsWith(o))) {
+    // Chrome extension IDs differ per browser profile/machine; allow all chrome-extension
+    // origins unconditionally — the Bearer API key is the actual auth gate.
+    if (!origin || origin.startsWith('chrome-extension://')) return callback(null, true);
+    if (allowedOrigins.some((o) => origin === o || origin.startsWith(o))) {
       callback(null, true);
     } else {
       callback(new Error(`CORS: origin "${origin}" not allowed`));
