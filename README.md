@@ -157,7 +157,7 @@ node icons/create-icons.js
 ## Project Structure
 
 ```
-ASSIGNMENT/
+Where-Was-I/
 ├── README.md
 ├── chrome-extension/
 │   ├── manifest.json          # Manifest V3
